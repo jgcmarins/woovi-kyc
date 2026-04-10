@@ -16,10 +16,10 @@ export default function HomePage() {
           Documentation
         </Link>
         <Link
-          href="https://github.com/jgcmarins/woovi-kyc"
+          href="https://woovi-kyc-demo.vercel.app/"
           className="px-6 py-2.5 rounded-lg border border-fd-border font-medium text-sm"
         >
-          GitHub
+          Live Demo
         </Link>
       </div>
       <div className="flex gap-6 justify-center mt-4 text-sm text-fd-muted-foreground">

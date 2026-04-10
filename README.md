@@ -115,7 +115,9 @@ We recommend **Cloudflare R2** for its simplicity and zero egress fees. See the 
 
 ## Documentation
 
-See [DOCS.md](./DOCS.md) for detailed documentation including Cloudflare R2 setup, customization, and TypeScript types.
+**[Full Documentation](https://woovi-kyc-docs.vercel.app/)**
+
+See also [DOCS.md](./DOCS.md) for a quick reference and [R2-SETUP.md](./R2-SETUP.md) for Cloudflare R2 setup.
 
 ## License
 
