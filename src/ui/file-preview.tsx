@@ -89,20 +89,25 @@ export const FilePreviewDialog: FC<FilePreviewDialogProps> = ({ data, onClose })
         <DialogTitle>{data?.fileName || 'Visualizar'}</DialogTitle>
       </DialogHeader>
       <div className="flex items-center justify-center overflow-auto max-h-[70vh]">
-        {data?.mimeType?.startsWith('image/') && data.previewUrl && (
+        {data?.previewUrl && data?.mimeType?.startsWith('image/') ? (
           <img
             src={data.previewUrl}
             alt={data.fileName}
             className="max-w-full max-h-full object-contain"
           />
-        )}
-        {data?.mimeType === 'application/pdf' && data.previewUrl && (
+        ) : data?.previewUrl && data?.mimeType === 'application/pdf' ? (
           <iframe
             src={data.previewUrl}
             className="w-full h-[70vh]"
             title={data.fileName || 'PDF Preview'}
           />
-        )}
+        ) : data?.previewUrl ? (
+          <iframe
+            src={data.previewUrl}
+            className="w-full h-[70vh]"
+            title={data.fileName || 'Preview'}
+          />
+        ) : null}
       </div>
     </DialogContent>
   </Dialog>

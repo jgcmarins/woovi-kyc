@@ -6,13 +6,20 @@ import type { KYCFileMetadata, KYCPayload } from "woovi-kyc";
 
 const UPLOAD_URL = process.env.NEXT_PUBLIC_UPLOAD_URL || "http://localhost:8787";
 
-async function uploadToR2(file: File, metadata: KYCFileMetadata): Promise<string> {
+function getUploadPrefix(cnpj: string, documentType: string): string {
+  const companyDocTypes = ["SOCIAL_CONTRACT", "ATA", "BYLAWS"];
+  const folder = companyDocTypes.includes(documentType) ? "company" : "representatives";
+  return `${cnpj}/${folder}`;
+}
+
+async function uploadToR2(cnpj: string, file: File, metadata: KYCFileMetadata): Promise<string> {
   const presignRes = await fetch(`${UPLOAD_URL}/presign`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       fileName: metadata.fileName,
       contentType: metadata.mimeType,
+      prefix: getUploadPrefix(cnpj, metadata.documentType),
     }),
   });
 
@@ -114,7 +121,7 @@ export default function Home() {
         }}
         onFileUploaded={async (file: File, metadata: KYCFileMetadata) => {
           console.log("[onFileUploaded]", metadata);
-          const url = await uploadToR2(file, metadata);
+          const url = await uploadToR2(cnpj, file, metadata);
           console.log("[onFileUploaded] uploaded to:", url);
           return url;
         }}

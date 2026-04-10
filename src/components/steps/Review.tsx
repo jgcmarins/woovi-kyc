@@ -28,12 +28,49 @@ const DOC_TYPE_LABELS: Record<string, string> = {
 
 type RepDocumentsMap = Record<number, KYCUploadedDocument[]>;
 
+function inferMimeType(url: string): string | null {
+  const ext = url.split('.').pop()?.toLowerCase();
+  if (!ext) return null;
+  const map: Record<string, string> = {
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    png: 'image/png',
+    gif: 'image/gif',
+    webp: 'image/webp',
+    pdf: 'application/pdf',
+  };
+  return map[ext] ?? null;
+}
+
 export const Review: FC = () => {
-  const { getPayload, goToPreviousStep, notifySubmit, notifyBack, onError } = useKYC();
+  const { getPayload, getStepData, goToPreviousStep, notifySubmit, notifyBack, onError } = useKYC();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [previewDoc, setPreviewDoc] = useState<FilePreviewData | null>(null);
 
   const payload = getPayload();
+
+  const rawCompanyDocs = getStepData('company-documents') as { documents?: KYCUploadedDocument[] } | null;
+  const rawRepDocs = (getStepData('representatives') as { repDocuments?: RepDocumentsMap } | null)?.repDocuments;
+
+  const companyDocsMimeMap = useMemo(() => {
+    const map: Record<string, KYCUploadedDocument> = {};
+    for (const doc of rawCompanyDocs?.documents ?? []) {
+      map[doc.url] = doc;
+    }
+    return map;
+  }, [rawCompanyDocs]);
+
+  const repDocsMimeMap = useMemo(() => {
+    const map: Record<string, KYCUploadedDocument> = {};
+    if (rawRepDocs) {
+      for (const docs of Object.values(rawRepDocs)) {
+        for (const doc of docs) {
+          map[doc.url] = doc;
+        }
+      }
+    }
+    return map;
+  }, [rawRepDocs]);
 
   const companyData = payload as Record<string, unknown>;
   const billingAddress = companyData.billingAddress as Record<string, string> | undefined;
@@ -132,16 +169,20 @@ export const Review: FC = () => {
                 </Typography>
                 {companyDocuments && companyDocuments.length > 0 ? (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    {companyDocuments.map((doc, i) => (
-                      <FilePreviewCard
-                        key={i}
-                        label={DOC_TYPE_LABELS[doc.type] ?? doc.type}
-                        fileName={doc.fileUrl.split('/').pop() ?? 'Documento'}
-                        mimeType={null}
-                        previewUrl={doc.fileUrl}
-                        onPreview={setPreviewDoc}
-                      />
-                    ))}
+                    {companyDocuments.map((doc, i) => {
+                      const raw = companyDocsMimeMap[doc.fileUrl];
+                      const mimeType = raw?.mimeType ?? inferMimeType(doc.fileUrl);
+                      return (
+                        <FilePreviewCard
+                          key={i}
+                          label={DOC_TYPE_LABELS[doc.type] ?? doc.type}
+                          fileName={raw?.fileName ?? doc.fileUrl.split('/').pop() ?? 'Documento'}
+                          mimeType={mimeType}
+                          previewUrl={doc.fileUrl}
+                          onPreview={setPreviewDoc}
+                        />
+                      );
+                    })}
                   </div>
                 ) : (
                   <Typography variant="caption" className="text-muted-foreground">
@@ -203,16 +244,20 @@ export const Review: FC = () => {
                                 Documentos ({rep.documents.length})
                               </Typography>
                               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                                {rep.documents.map((doc, j) => (
-                                  <FilePreviewCard
-                                    key={j}
-                                    label={DOC_TYPE_LABELS[doc.type] ?? doc.type}
-                                    fileName={doc.fileUrl.split('/').pop() ?? 'Documento'}
-                                    mimeType={null}
-                                    previewUrl={doc.fileUrl}
-                                    onPreview={setPreviewDoc}
-                                  />
-                                ))}
+                                {rep.documents.map((doc, j) => {
+                                  const raw = repDocsMimeMap[doc.fileUrl];
+                                  const mimeType = raw?.mimeType ?? inferMimeType(doc.fileUrl);
+                                  return (
+                                    <FilePreviewCard
+                                      key={j}
+                                      label={DOC_TYPE_LABELS[doc.type] ?? doc.type}
+                                      fileName={raw?.fileName ?? doc.fileUrl.split('/').pop() ?? 'Documento'}
+                                      mimeType={mimeType}
+                                      previewUrl={doc.fileUrl}
+                                      onPreview={setPreviewDoc}
+                                    />
+                                  );
+                                })}
                               </div>
                             </div>
                           )}

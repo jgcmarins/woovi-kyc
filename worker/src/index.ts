@@ -43,14 +43,15 @@ function withCors(response: Response, request: Request, env: Env): Response {
 
 // POST /presign — generate an upload URL (the Worker itself acts as upload proxy)
 async function handlePresign(request: Request, env: Env): Promise<Response> {
-  const body = (await request.json()) as { fileName?: string; contentType?: string };
-  const { fileName, contentType } = body;
+  const body = (await request.json()) as { fileName?: string; contentType?: string; prefix?: string };
+  const { fileName, contentType, prefix } = body;
 
   if (!fileName || !contentType) {
     return json({ error: 'fileName and contentType are required' }, 400);
   }
 
-  const key = `kyc/${crypto.randomUUID()}/${fileName}`;
+  const basePath = prefix ? `kyc/${prefix}` : `kyc/${crypto.randomUUID()}`;
+  const key = `${basePath}/${fileName}`;
 
   const workerUrl = new URL(request.url);
   const uploadUrl = `${workerUrl.origin}/upload/${key}`;
