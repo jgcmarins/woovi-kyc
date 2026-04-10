@@ -2,6 +2,8 @@
 
 Open-source React KYC wizard for opening Woovi accounts. Handles the full onboarding UI: company data, address, document uploads, and representative information.
 
+**[Live Demo](https://woovi-kyc-demo.vercel.app/)**
+
 ## Features
 
 - **CNPJ auto-fill** — fetches company data from BrasilAPI

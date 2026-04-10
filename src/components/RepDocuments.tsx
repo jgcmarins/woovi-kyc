@@ -98,7 +98,6 @@ export const RepDocuments: FC<RepDocumentsProps> = ({
           centralizado.
         </Typography>
         <DocumentUploader
-          category="REPRESENTATIVE"
           documentTypeOptions={SELFIE_TYPES}
           documents={selfieDocuments}
           onDocumentUploaded={onDocumentUploaded}
@@ -174,7 +173,6 @@ export const RepDocuments: FC<RepDocumentsProps> = ({
                     )}
                   </div>
                   <DocumentUploader
-                    category="REPRESENTATIVE"
                     documentTypeOptions={[docType]}
                     documents={docsOfType}
                     onDocumentUploaded={onDocumentUploaded}

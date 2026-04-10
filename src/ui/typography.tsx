@@ -55,8 +55,17 @@ function getDefaultElement(variant: string): keyof React.JSX.IntrinsicElements {
 
 const Typography = React.forwardRef<HTMLElement, TypographyProps>(
   ({ className, variant, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : getDefaultElement(variant || 'body1');
-    return <Comp className={cn(typographyVariants({ variant }), className)} ref={ref} {...props} />;
+    if (asChild) {
+      return <Slot className={cn(typographyVariants({ variant }), className)} ref={ref} {...props} />;
+    }
+    const Tag = getDefaultElement(variant || 'body1');
+    return (
+      <Tag
+        className={cn(typographyVariants({ variant }), className)}
+        ref={ref as React.Ref<never>}
+        {...props}
+      />
+    );
   },
 );
 Typography.displayName = 'Typography';

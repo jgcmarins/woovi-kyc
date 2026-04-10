@@ -5,6 +5,7 @@ type LoadingProps = {
   height?: string;
   className?: string;
   size?: 'sm' | 'md' | 'lg';
+  label?: string;
 };
 
 const sizeMap = {
@@ -13,10 +14,11 @@ const sizeMap = {
   lg: 'size-16',
 };
 
-export const Loading = ({ height = '100vh', className, size = 'md' }: LoadingProps) => {
+export const Loading = ({ height = '100vh', className, size = 'md', label }: LoadingProps) => {
   return (
-    <div className={cn('flex items-center justify-center', className)} style={{ height }}>
+    <div className={cn('flex flex-col items-center justify-center gap-3', className)} style={{ height }}>
       <Spinner className={cn('text-primary', sizeMap[size])} />
+      {label && <p className="text-sm text-muted-foreground">{label}</p>}
     </div>
   );
 };

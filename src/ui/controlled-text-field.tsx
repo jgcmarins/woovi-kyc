@@ -15,13 +15,14 @@ type MaskedInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const IMaskWrapper = React.forwardRef<HTMLInputElement, MaskedInputProps>(function MaskedInput(
-  { onChange, mask, maskOptions = {}, ...props },
+  { onChange, mask, maskOptions = {}, value, ...props },
   inputRef,
 ) {
   return (
     <IMaskInput
       {...props}
       {...maskOptions}
+      value={String(value ?? '')}
       inputRef={inputRef}
       mask={mask}
       onAccept={(value: unknown, _: unknown, event: unknown) => {
