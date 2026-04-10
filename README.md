@@ -111,7 +111,7 @@ All callbacks receive a `data` object in this format:
 
 The library is **storage agnostic**. When a user selects a file, `onFileUploaded` is called with the raw `File` object and metadata. You handle the upload and return the public URL.
 
-We recommend **Cloudflare R2** for its simplicity and zero egress fees. See the `worker/` directory for a ready-to-deploy Worker template. See [DOCS.md](./DOCS.md) for the full setup guide.
+We recommend **Cloudflare R2** for its simplicity and zero egress fees. See the [R2 Setup Guide](./R2-SETUP.md) for a step-by-step walkthrough.
 
 ## Documentation
 
