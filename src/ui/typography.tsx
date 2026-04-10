@@ -58,14 +58,12 @@ const Typography = React.forwardRef<HTMLElement, TypographyProps>(
     if (asChild) {
       return <Slot className={cn(typographyVariants({ variant }), className)} ref={ref} {...props} />;
     }
-    const Tag = getDefaultElement(variant || 'body1');
-    return (
-      <Tag
-        className={cn(typographyVariants({ variant }), className)}
-        ref={ref as React.Ref<never>}
-        {...props}
-      />
-    );
+    const tag = getDefaultElement(variant || 'body1');
+    return React.createElement(tag, {
+      className: cn(typographyVariants({ variant }), className),
+      ref,
+      ...props,
+    });
   },
 );
 Typography.displayName = 'Typography';
