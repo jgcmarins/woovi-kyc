@@ -1,8 +1,12 @@
 # woovi-kyc
 
+[![npm version](https://img.shields.io/npm/v/woovi-kyc.svg)](https://www.npmjs.com/package/woovi-kyc)
+[![npm downloads](https://img.shields.io/npm/dm/woovi-kyc.svg)](https://www.npmjs.com/package/woovi-kyc)
+[![license](https://img.shields.io/npm/l/woovi-kyc.svg)](https://github.com/jgcmarins/woovi-kyc/blob/main/LICENSE)
+
 Open-source React KYC wizard for opening Woovi accounts. Handles the full onboarding UI: company data, address, document uploads, and representative information.
 
-**[Live Demo](https://woovi-kyc-demo.vercel.app/)**
+**[Live Demo](https://woovi-kyc-demo.vercel.app/)** | **[Documentation](https://woovi-kyc-docs.vercel.app/)**
 
 ## Screenshots
 
