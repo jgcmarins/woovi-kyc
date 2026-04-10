@@ -8,7 +8,7 @@ Open-source React KYC wizard for opening Woovi accounts. Handles the full onboar
 
 | Company Data | Address | Documents |
 |:---:|:---:|:---:|
-| ![Company Data](images/1.png) | ![Address](images/2.png) | ![Documents](images/3.png) |
+| ![Company Data](https://raw.githubusercontent.com/jgcmarins/woovi-kyc/main/images/1.png) | ![Address](https://raw.githubusercontent.com/jgcmarins/woovi-kyc/main/images/2.png) | ![Documents](https://raw.githubusercontent.com/jgcmarins/woovi-kyc/main/images/3.png) |
 
 ## Features
 
