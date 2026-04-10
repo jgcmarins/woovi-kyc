@@ -11,4 +11,4 @@ bucket_name = "woovi-kyc-uploads"
 
 [vars]
 R2_PUBLIC_URL = "https://woovi-kyc-upload.jgcmarins.workers.dev/file"
-ALLOWED_ORIGINS = "http://localhost:3000"
+ALLOWED_ORIGINS = "https://woovi-kyc-demo.vercel.app,http://localhost:3000"
