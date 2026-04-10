@@ -1,0 +1,53 @@
+---
+title: Payload Format
+description: The data object passed to callbacks in Woovi format
+---
+
+The `data` object passed to callbacks follows the Woovi API format:
+
+```json
+{
+  "officialName": "Empresa Ltda",
+  "tradeName": "Minha Empresa",
+  "taxID": "12345678000100",
+  "businessDescription": "Comércio varejista de combustíveis",
+  "businessProduct": "Gestão de frota e abastecimento",
+  "businessLifetime": "5 anos e 3 meses",
+  "businessGoal": "Processar pagamentos Pix para abastecimento de frota",
+  "billingAddress": {
+    "zipcode": "01001000",
+    "street": "Praça da Sé",
+    "number": "100",
+    "neighborhood": "Sé",
+    "city": "São Paulo",
+    "state": "SP",
+    "complement": null
+  },
+  "companyDocuments": [
+    { "type": "SOCIAL_CONTRACT", "fileUrl": "https://your-storage.com/contract.pdf" }
+  ],
+  "representatives": [
+    {
+      "name": "João Silva",
+      "birthDate": "1990-01-15",
+      "email": "joao@empresa.com",
+      "taxID": "12345678900",
+      "phone": "+5511999999999",
+      "address": {
+        "zipcode": "04001000",
+        "street": "Av Paulista",
+        "number": "1000",
+        "neighborhood": "Bela Vista",
+        "city": "São Paulo",
+        "state": "SP"
+      },
+      "documents": [
+        { "type": "PICTURE", "fileUrl": "https://your-storage.com/selfie.jpg" },
+        { "type": "CNH", "fileUrl": "https://your-storage.com/cnh.pdf" }
+      ]
+    }
+  ]
+}
+```
+
+During early steps, the payload contains only the data filled so far. `companyDocuments` and `representatives` will be empty arrays until those steps are completed.

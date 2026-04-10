@@ -1,0 +1,16 @@
+---
+title: Configuration
+description: All available props for the KYCWizard component
+---
+
+## `KYCConfig` props
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `cnpj` | `string` | Yes | Company CNPJ (digits only). Auto-fetches data from BrasilAPI. |
+| `onNext` | `(data: KYCPayload) => void` | No | Called when user advances to the next step. |
+| `onBack` | `(data: KYCPayload) => void` | No | Called when user goes back to the previous step. |
+| `onFileUploaded` | `(file: File, metadata: KYCFileMetadata) => Promise<string>` | No | Called when user selects a file. Upload it and return the public URL. |
+| `onFileRemoved` | `(fileUrl: string, data: KYCPayload) => void` | No | Called when a file is removed. |
+| `onSubmit` | `(data: KYCPayload) => void \| Promise<void>` | No | Called when user clicks "Submit" on the Review step. |
+| `onError` | `(error: Error) => void` | No | Called on any error. |

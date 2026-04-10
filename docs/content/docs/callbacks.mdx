@@ -1,0 +1,48 @@
+---
+title: Callbacks
+description: All callback props explained with examples
+---
+
+All callbacks that receive `data` get the full assembled payload (in Woovi format) at the time of the event.
+
+## `onNext(data)`
+
+Called every time the user advances to the next step. Useful for saving progress to your backend, analytics, or logging.
+
+## `onBack(data)`
+
+Called every time the user navigates back.
+
+## `onFileUploaded(file, metadata) → Promise<string>`
+
+Called when the user selects or captures a file. The library provides the raw `File` object and metadata. **You are responsible for uploading** the file to your storage (S3, R2, GCS, etc.) and returning the public URL.
+
+```tsx
+onFileUploaded={async (file, metadata) => {
+  // metadata: { documentType: 'CNH', fileName: 'cnh.pdf', mimeType: 'application/pdf' }
+
+  // Example: upload to your backend
+  const formData = new FormData();
+  formData.append('file', file);
+  const res = await fetch('/api/upload', { method: 'POST', body: formData });
+  const { url } = await res.json();
+  return url; // the library uses this URL in the payload
+}}
+```
+
+The returned URL is:
+- Stored in the in-memory state
+- Used for file previews in the UI
+- Included in the payload as `fileUrl` (in `companyDocuments` and `representatives[].documents`)
+
+## `onFileRemoved(fileUrl, data)`
+
+Called when the user removes a previously uploaded file. The `fileUrl` is the same URL returned by `onFileUploaded`. You can use this to delete the file from your storage.
+
+## `onSubmit(data)`
+
+Called when the user clicks "Enviar para Análise" on the Review step. This is where you POST the data to your backend, which then forwards it to the Woovi API. Can return a `Promise` — the submit button shows a loading state until it resolves.
+
+## `onError(error)`
+
+Called on any error: BrasilAPI lookup failure, upload failure, or errors thrown by `onSubmit`.

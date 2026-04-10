@@ -1,0 +1,86 @@
+---
+title: TypeScript Types
+description: All exported types from woovi-kyc
+---
+
+```typescript
+import type {
+  KYCConfig,
+  KYCCompanyData,
+  KYCAddress,
+  KYCUploadedDocument,
+  KYCFileMetadata,
+  KYCPayload,
+} from 'woovi-kyc';
+```
+
+## `KYCConfig`
+
+```typescript
+type KYCConfig = {
+  cnpj: string;
+  onNext?: (data: KYCPayload) => void;
+  onBack?: (data: KYCPayload) => void;
+  onFileUploaded?: (file: File, metadata: KYCFileMetadata) => Promise<string>;
+  onFileRemoved?: (fileUrl: string, data: KYCPayload) => void;
+  onSubmit?: (data: KYCPayload) => void | Promise<void>;
+  onError?: (error: Error) => void;
+};
+```
+
+## `KYCFileMetadata`
+
+```typescript
+type KYCFileMetadata = {
+  documentType: string;
+  fileName: string;
+  mimeType: string;
+};
+```
+
+## `KYCPayload`
+
+```typescript
+type KYCPayload = Record<string, unknown>;
+```
+
+## `KYCUploadedDocument`
+
+```typescript
+type KYCUploadedDocument = {
+  id: string;
+  documentType: string;
+  url: string;
+  fileName: string;
+  mimeType: string;
+};
+```
+
+## `KYCCompanyData`
+
+```typescript
+type KYCCompanyData = {
+  name: string | null;
+  friendlyName: string | null;
+  taxId: string | null;
+  cnaeCode: number | null;
+  cnaeDescription: string | null;
+  businessStartDate: string | null;
+  location: { ... } | null;
+  partners: readonly { name: string | null }[] | null;
+};
+```
+
+## `KYCAddress`
+
+```typescript
+type KYCAddress = {
+  zipcode: string;
+  street: string;
+  number: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  complement: string | null;
+};
+```

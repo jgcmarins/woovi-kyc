@@ -1,0 +1,22 @@
+---
+title: How It Works
+description: Understanding the 5-step KYC wizard flow
+---
+
+```
+User fills form → Files uploaded via onFileUploaded → Review step → onSubmit(data)
+```
+
+**Step 1: Company Data** — Pre-filled from BrasilAPI (razão social, nome fantasia, CNAE). User completes business description, product, and goal.
+
+**Step 2: Address** — CEP auto-fill from BrasilAPI. User confirms or adjusts the billing address.
+
+**Step 3: Company Documents** — Upload social contract, ATA, or bylaws. Each file triggers `onFileUploaded`.
+
+**Step 4: Representatives** — Add partners (pre-filled from BrasilAPI). Each needs personal data, address, selfie, and identity document (CNH or RG).
+
+**Step 5: Review & Submit** — Shows all collected data with file previews. On "Enviar", calls `onSubmit(data)` with the full assembled payload.
+
+## State Persistence
+
+Form data is persisted in memory across step navigation within a session. If the user navigates from step 3 back to step 1, their data is preserved. However, data is **lost on page refresh** — this is intentional for v1 simplicity.

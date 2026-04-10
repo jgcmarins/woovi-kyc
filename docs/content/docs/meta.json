@@ -1,0 +1,14 @@
+{
+  "title": "Documentation",
+  "pages": [
+    "index",
+    "getting-started",
+    "configuration",
+    "how-it-works",
+    "callbacks",
+    "payload",
+    "file-uploads",
+    "r2-setup",
+    "types"
+  ]
+}

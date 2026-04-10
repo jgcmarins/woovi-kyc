@@ -1,0 +1,42 @@
+---
+title: File Uploads
+description: Storage agnostic file upload architecture
+---
+
+The library is **storage agnostic**. It does not upload files directly. Instead, when a user selects a file, the `onFileUploaded` callback is called with the raw `File` object. You handle the upload and return the public URL.
+
+This means you can use any storage provider: **Cloudflare R2**, **AWS S3**, **Google Cloud Storage**, **Azure Blob Storage**, or even your own backend.
+
+## How it works
+
+1. User selects a file (or captures via camera)
+2. The library calls `onFileUploaded(file, metadata)`
+3. You upload the file to your storage
+4. You return the public URL as a string
+5. The library stores the URL in state and uses it for previews and the final payload
+
+```tsx
+onFileUploaded={async (file, metadata) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('documentType', metadata.documentType);
+
+  const res = await fetch('/api/upload', {
+    method: 'POST',
+    body: formData,
+  });
+
+  const { url } = await res.json();
+  return url;
+}}
+```
+
+## File removal
+
+When the user removes a file, `onFileRemoved(fileUrl, data)` is called. Use this to clean up the file from your storage if needed.
+
+## Recommended: Cloudflare R2
+
+We recommend **Cloudflare R2** for its simplicity and zero egress fees. The repository includes a ready-to-deploy Cloudflare Worker template in the `worker/` directory.
+
+See the [R2 Setup Guide](/docs/r2-setup) for a step-by-step walkthrough.

@@ -1,0 +1,49 @@
+---
+title: Getting Started
+description: Install woovi-kyc and render your first KYC wizard
+---
+
+## Installation
+
+```bash
+pnpm add woovi-kyc
+# or
+npm install woovi-kyc
+# or
+yarn add woovi-kyc
+```
+
+**Peer dependencies:** `react` (>=18) and `react-dom` (>=18).
+
+## Basic Usage
+
+```tsx
+import { KYCWizard } from 'woovi-kyc';
+
+function KYCPage() {
+  return (
+    <KYCWizard
+      cnpj="12345678000100"
+      onFileUploaded={async (file, metadata) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('type', metadata.documentType);
+
+        const res = await fetch('/api/upload', { method: 'POST', body: formData });
+        const { url } = await res.json();
+        return url;
+      }}
+      onSubmit={async (data) => {
+        await fetch('/api/kyc', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+      }}
+      onError={(error) => console.error(error)}
+    />
+  );
+}
+```
+
+The wizard queries `brasilapi.com.br/api/cnpj/v1/{cnpj}` and pre-fills: razão social, nome fantasia, CNAE, endereço, sócios.
