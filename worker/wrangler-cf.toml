@@ -1,0 +1,14 @@
+# woovi-kyc upload worker — CLOUDFLARE PRODUCTION
+# Usage: pnpm deploy
+
+name = "woovi-kyc-upload"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+[[r2_buckets]]
+binding = "KYC_BUCKET"
+bucket_name = "woovi-kyc-uploads"
+
+[vars]
+R2_PUBLIC_URL = "https://woovi-kyc-upload.jgcmarins.workers.dev/file"
+ALLOWED_ORIGINS = "http://localhost:3000"
